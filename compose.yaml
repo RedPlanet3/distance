@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      - YANDEX_API_KEY=${YANDEX_API_KEY}
+      - DADATA_API_KEY=${DADATA_API_KEY}
+      - DADATA_API_SECRET=${DADATA_API_SECRET}
+    depends_on:
+      - mysql
+    restart: on-failure
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+
+volumes:
+  mysql_data:
