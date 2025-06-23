@@ -24,7 +24,7 @@ Distance Service — это Spring Boot приложение для сравне
 
 ### 1. Клонируйте репозиторий
 ```bash
-git clone <URL-репозитория>
+git clone https://github.com/RedPlanet3/distance
 cd distance/distance
 ```
 
