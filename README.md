@@ -48,14 +48,6 @@ docker-compose up --build
 
 Приложение будет доступно на `http://localhost:8080`.
 
-### 4. Локальный запуск (без Docker)
-- Убедитесь, что MySQL запущен и параметры подключения совпадают с `application.yml`.
-- Установите переменные окружения или пропишите их в `application.yml`.
-- Запустите приложение:
-```bash
-./gradlew bootRun
-```
-
 ## API
 
 ### POST `/api/address/compare`
