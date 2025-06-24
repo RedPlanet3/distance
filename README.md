@@ -36,12 +36,7 @@ DADATA_SECRET=your_dadata_secret
 YANDEX_API_KEY=your_yandex_api_key
 ```
 
-### 3. Соберите проект
-```bash
-./gradlew clean build
-```
-
-### 4. Запуск через Docker Compose
+### 3. Запуск через Docker Compose(убедитесь, что Docker установлен и запущен)
 ```bash
 docker-compose up --build
 ```
