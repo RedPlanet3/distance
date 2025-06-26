@@ -39,6 +39,10 @@ public class DadataService {
 						return Mono.error(new GeocodingException("No coordinates found for address in Dadata API"));
 					}
 
+					if (responses.size() > 1) {
+						log.warn("Multiple coordinates found in Dadata API response for address: {}", address);
+						return Mono.error(new GeocodingException("Too many results for address in Dadata API"));
+					}
 					DadataResponse response = responses.get(0);
 
 					if (response.getGeoLat() == null || response.getGeoLon() == null) {
@@ -54,9 +58,9 @@ public class DadataService {
 										response.getQcGeo(), response.getSource())));
 					}
 
-					log.info("Dadata coordinates for address {}: lat={}, lon={}, qc_geo={}", 
+					log.info("Dadata coordinates for address {}: lat={}, lon={}, qc_geo={}",
 							address, response.getGeoLat(), response.getGeoLon(), response.getQcGeo());
-					
+
 					return Mono.just(new double[]{response.getGeoLat(), response.getGeoLon()});
 				});
 	}

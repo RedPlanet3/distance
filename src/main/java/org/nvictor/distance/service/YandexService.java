@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -19,6 +21,7 @@ public class YandexService {
 	private String yandexApiKey;
 
 	public Mono<double[]> getCoordinates(String address) {
+
 		return yandexWebClient.get()
 				.uri(uriBuilder -> uriBuilder
 						.queryParam("geocode", address)
@@ -30,9 +33,13 @@ public class YandexService {
 				.doOnError(error -> log.error("Yandex API error for address {}: {}", address, error.getMessage()))
 				.flatMap(response -> {
 					try {
-						String pos = response.getResponse()
+						List<YandexResponse.FeatureMember> featureMembers = response.getResponse()
 								.getGeoObjectCollection()
-								.getFeatureMember()
+								.getFeatureMember();
+						if (featureMembers.size() != 1) {
+							return Mono.error(new GeocodingException("Yandex API error for address " + address + ". Too many results"));
+						}
+						String pos = featureMembers
 								.get(0)
 								.getGeoObject()
 								.getPoint()
